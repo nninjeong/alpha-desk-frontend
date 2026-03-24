@@ -9,12 +9,19 @@ export interface StockSummaryItem {
   sentiment: 'POSITIVE' | 'NEGATIVE' | 'NEUTRAL';
   sentiment_score: number;
   confidence: number;
+  source_type: 'NEWS' | 'DISCLOSURE' | 'REPORT';
 }
 
 export const summaryApi = {
   getSummaries: async (): Promise<StockSummaryItem[]> => {
     const res = await httpClient.get("/pipeline/summaries");
     if (!res.ok) throw new Error("요약 데이터 조회에 실패했습니다.");
+    return res.json();
+  },
+
+  getReportSummaries: async (): Promise<StockSummaryItem[]> => {
+    const res = await httpClient.get("/pipeline/report-summaries");
+    if (!res.ok) throw new Error("공시·리포트 데이터 조회에 실패했습니다.");
     return res.json();
   },
 
