@@ -2,12 +2,13 @@
 
 ## PR 링크
 
-| 저장소 | PR | 브랜치 |
-|--------|-----|--------|
-| **alpha-desk-frontend** | https://github.com/writism/alpha-desk-frontend/pull/3 | `feat/bl-fe-30-37-heatmap-pagination-proxy` |
-| **alpha-desk-ai-server** | https://github.com/writism/alpha-desk-ai-server/pull/6 | `feat/bl-be-04-17-backlog-heatmap-pipeline` |
+| 저장소 | 포크 PR (writism) | 업스트림 PR (EDDI, 팀 머지) | 브랜치 |
+|--------|-------------------|-----------------------------|--------|
+| **alpha-desk-frontend** | [#3](https://github.com/writism/alpha-desk-frontend/pull/3) | [#19](https://github.com/EDDI-RobotAcademy/alpha-desk-frontend/pull/19) | `feat/bl-fe-30-37-heatmap-pagination-proxy` |
+| **alpha-desk-ai-server** | [#6](https://github.com/writism/alpha-desk-ai-server/pull/6) | [#28](https://github.com/EDDI-RobotAcademy/alpha-desk-ai-server/pull/28) | `feat/bl-be-04-17-backlog-heatmap-pipeline` |
 
-> `gh pr create` 시 `Head ref` 오류가 나면 `--head writism:<브랜치명>` 형식으로 지정.
+> `gh pr create` 시 `Head ref` 오류가 나면 `--head writism:<브랜치명>` 형식으로 지정.  
+> 업스트림: `gh pr create --repo EDDI-RobotAcademy/<repo> --base main --head writism:<브랜치>`
 
 ---
 
