@@ -1,9 +1,25 @@
 "use client"
 
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAtomValue } from "jotai"
+import { authAtom } from "@/store/authAtom"
 import { useMarketAnalysis } from "../../application/hooks/useMarketAnalysis"
 
 export function StockRecommendationPrompt() {
+    const authState = useAtomValue(authAtom)
+    const router = useRouter()
     const { question, setQuestion, answer, isLoading, error, submit, reset } = useMarketAnalysis()
+
+    // 비인증 사용자 → 로그인 리다이렉트
+    useEffect(() => {
+        if (authState === "UNAUTHENTICATED") {
+            router.replace("/login")
+        }
+    }, [authState, router])
+
+    // 인증 상태 확인 중 또는 리다이렉트 직전에는 렌더하지 않음 (flash 방지)
+    if (authState !== "AUTHENTICATED") return null
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
@@ -77,7 +93,7 @@ export function StockRecommendationPrompt() {
                 </div>
             )}
 
-            {/* 답변 */}
+            {/* 로딩 */}
             {isLoading && (
                 <div className="border border-outline-variant bg-surface-container px-4 py-6 flex items-center gap-3">
                     <span className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin shrink-0" />
@@ -85,6 +101,7 @@ export function StockRecommendationPrompt() {
                 </div>
             )}
 
+            {/* 답변 */}
             {answer && !isLoading && (
                 <section className="border border-outline bg-surface-container-low">
                     <div className={`flex items-center gap-2 px-4 py-2 border-b border-outline-variant ${
@@ -96,6 +113,10 @@ export function StockRecommendationPrompt() {
                         <span className="font-mono text-xs font-bold text-on-surface uppercase tracking-widest">
                             {answer.in_scope ? "ANALYSIS_RESULT" : "OUT_OF_SCOPE"}
                         </span>
+                    </div>
+                    <div className="px-4 py-2 border-b border-outline-variant bg-surface-container">
+                        <span className="font-mono text-xs text-outline">Q. </span>
+                        <span className="font-mono text-xs text-on-surface-variant">{answer.question}</span>
                     </div>
                     <div className="px-4 py-4 font-mono text-sm text-on-surface leading-relaxed whitespace-pre-wrap">
                         {answer.answer}
